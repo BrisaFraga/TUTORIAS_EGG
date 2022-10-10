@@ -89,52 +89,93 @@ public class TUTORIAS_GUIA5 {
        
     }
     
- 
-    
-    public static void diagonalesMiniMatriz(String[][] matriz , int fila, int columna) {
-        String principal = "";
-        String secundaria = "";
-        
-        // EL 2 REFIERE A LA ULTIMA COLUMNA POR POSICONES AL SER UNA MATRIZ DE 3X3
-        // LAS COLUMNAS SEGUN POSICION SERIAN 0/1/2
-        int aux = 2;
-        
-        miniMatriz(matriz, fila, columna);
+     public static void ingresarPalabras(String[][] matriz) {
+        Random random = new Random();
+
+        Scanner leer;
+        leer = new Scanner(System.in);
+        String palabra ;
+
+
+       
+        int c;
+        int f;
         
         
         for (int i = 0; i < 3; i++) {
-            //Recorre las filas, al hacer i+fila, se refiere a la posicion de la matriz
-            // este es de la diagonal secundaria            
-            secundaria = secundaria.concat(matriz[i+fila][aux+columna]);
-            System.out.println(matriz[i+fila][aux+columna]);
-            //se le resta uno para poder acceder a la siguiente posicion en columna 
-            // ej si empieza en 2 como ahora la siguiente seria el 1
-            aux -= 1;
-            
-            for (int j = 0; j < 3; j++) {
-                
-                
-                if (i == j){
-                    principal = principal.concat(matriz[i+fila][j+columna]);
-                }
-                
+            System.out.println("Ingrese una palabra no mayor a 10 digitos:");
+            palabra = leer.nextLine();
+            while (palabra.length() >10) {     
+                System.out.println("ERROR INGRESE UNA PALABRA MAS CORTA!!!!!!!!!");
+                System.out.println("Ingrese una palabra no mayor a 10 digitos:");
+                palabra = leer.nextLine();
                 
             }
             
+   
+            //le da un lugar random a las filas y las columnas
+            f = random.nextInt(10);
+            c = random.nextInt(10-palabra.length());
+            
+            boolean bandera = false;
+         
+            for (int j = 0; j < palabra.length(); j++) {
+                
+                //mientras la matriz en la posicion actual no este vacia y la bandera este en falso, va a entrar aqui
+                //esto se hace para no sobrescribir la primera letra, abria que verificar que no sobrescriba mas de una letra
+                //yo no lo hice para acortar el tiempo del ejercicio pero podrias intentarlo vos :)
+                
+                while(matriz[f][c] != null && bandera == false) {                    
+                    f = random.nextInt(10);
+                    c = random.nextInt(10-palabra.length());
+                }
+                
+                //al salir o no entrar al bucle, se pone la bandera en True para que no entre mientras recorre la matriz para
+                //guardar la palabra bien 
+                
+                 bandera = true;                              
+                
+                // j = posicion actual en la palabra, c =  donde se coloco la primera letra de la palabra
+                //se suma para obtener la posicion actual de la columna
+                matriz[f][j+c]  = palabra.substring(j, j+1);
+                
+                //verifica que ya estemos en la ultima vuelta de este for, para poder restablecer la bandera.
+                if (j == palabra.length()-1) {                    
+                    bandera = false;
+                }
+            }
             
         }
+         
+ 
+    }
+     
+     public static void llenarMatriz(String[][] matriz){
         
-        System.out.println("Resultados de la primera diagonal: " + principal);
-        System.out.println("Resultados de la segunda diagonal: " + secundaria);
+        Random random = new Random();
+        char a;
+
         
-        if (principal.toLowerCase().equals(secundaria.toLowerCase())) {
-            System.out.println("LAS DIAGONALES SON IGUALES!!!");
+        
+        //RECORRE FILAS
+        for (int i = 0; i < 10; i++) {
+            //RECORRE COLUMNAS
+            for (int j = 0; j < 10; j++) {
+                //VERIFICA QUE LA MATRIZ ESTE VACIA PARA NO SOBRESCRIBIR LAS PALABRAS INGRESADAS.
+                if (matriz[i][j] == null) {
+                     //Hace un numero random, lo suma a las 'a' y al ser convertido al char, 
+                    //te podria asignar todos los caracteres del abecedario en MINUSCULA
+                     a = (char) ('a' + random.nextInt(26));
+                     //.valueOf() convierte el char en un string
+                     matriz[i][j] =  String.valueOf(a);
+                }
+               
+            }
             
-        }else{System.out.println("LAS DIAGONALES SON DIFERENTES!!!!");}
-        
+        }
     }
     
-    public static void sopaLetras(String[][] matrizGrande) {
+     public static void sopaLetras(String[][] matrizGrande) {
         int palabrasEncontradas = 0;
         boolean bandera ;
         
@@ -145,7 +186,6 @@ public class TUTORIAS_GUIA5 {
             
             //si ya encontraste las 3 palabras antes de los 4 intentos, no va a realizar las siguientes acciones.
             if (palabrasEncontradas == 3) {
-                System.out.println("--- GANASTE, ENCONTRASTE TODAS LAS PALABRAS ---");
                 break;
             }
             
@@ -176,116 +216,7 @@ public class TUTORIAS_GUIA5 {
         
     }
     
-    public static void llenarMatriz(String[][] matriz){
-        
-        Random random = new Random();
-        char a;
-       
-       
-        
-        //RECORRE FILAS
-        for (int i = 0; i < 10; i++) {
-            //RECORRE COLUMNAS
-            for (int j = 0; j < 10; j++) {
-                //VERIFICA QUE LA MATRIZ ESTE VACIA PARA NO SOBRESCRIBIR LAS PALABRAS INGRESADAS.
-                if (matriz[i][j] == null) {
-                     //Hace un numero random, lo suma a las 'a' y al ser convertido al char, 
-                    //te podria asignar todos los caracteres del abecedario en MINUSCULA
-                     a = (char) ('a' + random.nextInt(26));
-                     //.valueOf() convierte el char en un string
-                    matriz[i][j] = String.valueOf(a);
-                }
-               
-            }
-            
-        }
-    }
-    
-
-    public static void ingresarPalabras(String[][] matriz) {
-        Random random = new Random();
-
-        Scanner leer;
-        leer = new Scanner(System.in);
-        String palabra ;
-
-
-       
-        int c;
-        int f;
-        
-        
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Ingrese una palabra no mayor a 10 digitos:");
-            palabra = leer.nextLine();
-            while (palabra.length() >10) {     
-                System.out.println("ERROR INGRESE UNA PALABRA MAS CORTA!!!!!!!!!");
-                System.out.println("Ingrese una palabra no mayor a 10 digitos:");
-                palabra = leer.nextLine();
-                
-            }
-            
-   
-            //le da un lugar random a las filas y las columnas
-            f = random.nextInt(10);
-            c = random.nextInt(10-palabra.length());
-            boolean bandera = false;
-         
-            for (int j = 0; j < palabra.length(); j++) {
-                
-                //mientras la matriz en la posicion actual no este vacia y la bandera este en falso, va a entrar aqui
-                //esto se hace para no sobrescribir la primera letra, abria que verificar que no sobrescriba mas de una letra
-                //yo no lo hice para acortar el tiempo del ejercicio pero podrias intentarlo vos :)
-                while(matriz[f][c] != null && bandera == false) {                    
-                    f = random.nextInt(10);
-                    c = random.nextInt(10-palabra.length());
-                }
-                
-                //al salir o no entrar al bucle, se pone la bandera en True para que no entre mientras recorre la matriz para
-                //guardar la palabra bien 
-                
-                 bandera = true;                              
-                
-                // j = posicion actual en la palabra, c =  donde se coloco la primera letra de la palabra
-                //se suma para obtener la posicion actual de la columna
-                matriz[f][j+c]  = palabra.substring(j, j+1);
-                
-                //verifica que ya estemos en la ultima vuelta de este for, para poder restablecer la bandera.
-                if (j == palabra.length()-1) {                    
-                    bandera = false;
-                }
-            }
-            
-        }
-         
- 
-    }
-    
-    public static void miniMatriz(String[][] matriz , int fila, int columna) {
-        for (int i = fila; i < fila+3; i++) {
-            System.out.print("[");
-            for (int j = columna; j < columna+2; j++) {
-                System.out.print(matriz[i][j]+'|');               
-                   }
-            System.out.println(matriz[i][columna+2]+']');
-            
-        }
-    }
-    
-    public static void mostrarMatriz(String[][] Matriz) {
-        
-        for (int i = 0; i < 10; i++) {
-            System.out.print("[");
-            for (int j = 0; j < 9; j++) {
-                System.out.print(Matriz[i][j]+'|');               
-                   }
-            System.out.println(Matriz[i][9]+']');
-            
-        }
-        
-    }
-    
-    public static boolean buscarPalabra(String[][] matriz){
+     public static boolean buscarPalabra(String[][] matriz){
         
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese la palabra a buscar:");
@@ -320,4 +251,79 @@ public class TUTORIAS_GUIA5 {
         
         //devuelve true o false, al encontrar o no (respectivamente) la palabra.
     }
+    
+    
+    public static void diagonalesMiniMatriz(String[][] matriz , int fila, int columna) {
+        
+        String principal = "";
+        String secundaria = "";
+        
+        // EL 2 REFIERE A LA ULTIMA COLUMNA POR POSICONES AL SER UNA MATRIZ DE 3X3
+        // LAS COLUMNAS SEGUN POSICION SERIAN 0/1/2
+        
+        int aux = 2;
+        
+        miniMatriz(matriz, fila, columna);
+        
+        
+        for (int i = 0; i < 3; i++) {
+            //Recorre las filas, al hacer i+fila, se refiere a la posicion de la matriz
+            // este es de la diagonal secundaria            
+            secundaria = secundaria.concat(matriz[i+fila][aux+columna]);
+            
+            //se le resta uno para poder acceder a la siguiente posicion en columna 
+            // ej si empieza en 2 como ahora la siguiente seria el 1
+            aux -= 1;
+            
+            for (int j = 0; j < 3; j++) {
+                
+                
+                if (i == j){
+                    principal = principal.concat(matriz[i+fila][j+columna]);
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        System.out.println("Resultados de la primera diagonal: " + principal);
+        System.out.println("Resultados de la segunda diagonal: " + secundaria);
+        
+        if (principal.toLowerCase().equals(secundaria.toLowerCase())) {
+            System.out.println("LAS DIAGONALES SON IGUALES!!!");
+            
+        }else{System.out.println("LAS DIAGONALES SON DIFERENTES!!!!");}
+        
+    }
+    
+    
+   
+    
+    public static void miniMatriz(String[][] matriz , int fila, int columna) {
+        for (int i = fila; i < fila+3; i++) {
+            System.out.print("[");
+            for (int j = columna; j < columna+2; j++) {
+                System.out.print(matriz[i][j]+'|');               
+                   }
+            System.out.println(matriz[i][columna+2]+']');
+            
+        }
+    }
+    
+    public static void mostrarMatriz(String[][] Matriz) {
+        
+        for (int i = 0; i < 10; i++) {
+            System.out.print("[");
+            for (int j = 0; j < 9; j++) {
+                System.out.print(Matriz[i][j]+'|');               
+                   }
+            System.out.println(Matriz[i][9]+']');
+            
+        }
+        
+    }
+    
+    
 }
