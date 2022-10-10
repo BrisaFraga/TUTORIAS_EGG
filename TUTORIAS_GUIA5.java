@@ -28,14 +28,115 @@ public class TUTORIAS_GUIA5 {
         Scanner leer;
         leer = new Scanner(System.in);
         String [][] matrizGrande = new String[10][10];
-        boolean bandera ;
-        
+        int fila;
+        int columna ;
+        int opcion;
+        opcion = -1; 
    
         //llenamos la matriz
         ingresarPalabras(matrizGrande);
         llenarMatriz(matrizGrande);
-        int palabrasEncontradas = 0;
         
+        while (opcion != 0) { 
+            
+            System.out.println("OPCIONES:");
+            System.out.println("1 - buscar las palabras en la sopa de letras");
+            System.out.println("2 - Buscar una mini matriz de 3x3 y verificar que sus diagonales coincidan.");
+            System.out.println("0 - cerrar el programa");
+            opcion = leer.nextInt();
+            
+            
+            
+            switch(opcion){
+                
+                case 1:
+                    
+                    sopaLetras(matrizGrande);
+                break;
+                case 2:
+                    mostrarMatriz(matrizGrande);
+                       
+                    System.out.println("Ingrese la fila a buscar una matriz de 3x3 (0 al 7)");
+                    fila = leer.nextInt();
+                    System.out.println("Ingrese la columna a buscar una matriz de 3x3 (0 al 7)");
+                    columna = leer.nextInt();
+
+                    while (fila > 7 || fila < 0 || columna > 7 || columna<0) {     
+                        System.out.println("ERROR, VUELVA A INGRESARLO!!! ----");
+                        System.out.println("Ingrese la fila a buscar una matriz de 3x3 (0 al 7)");
+                        fila = leer.nextInt();
+                        System.out.println("Ingrese la columna a buscar una matriz de 3x3 (0 al 7)");
+                        columna = leer.nextInt();               
+
+                    }
+
+                    diagonalesMiniMatriz(matrizGrande,fila,columna);
+                    break;
+                case 0:
+                    System.out.println("ADIOS!");
+                    break;
+
+                default:
+                    System.out.println("El numero ingresado no está todavia en nuestro programa");}
+            
+        }
+        
+  
+        
+  
+        
+        
+       
+    }
+    
+ 
+    
+    public static void diagonalesMiniMatriz(String[][] matriz , int fila, int columna) {
+        String principal = "";
+        String secundaria = "";
+        
+        // EL 2 REFIERE A LA ULTIMA COLUMNA POR POSICONES AL SER UNA MATRIZ DE 3X3
+        // LAS COLUMNAS SEGUN POSICION SERIAN 0/1/2
+        int aux = 2;
+        
+        miniMatriz(matriz, fila, columna);
+        
+        
+        for (int i = 0; i < 3; i++) {
+            //Recorre las filas, al hacer i+fila, se refiere a la posicion de la matriz
+            // este es de la diagonal secundaria            
+            secundaria = secundaria.concat(matriz[i+fila][aux+columna]);
+            System.out.println(matriz[i+fila][aux+columna]);
+            //se le resta uno para poder acceder a la siguiente posicion en columna 
+            // ej si empieza en 2 como ahora la siguiente seria el 1
+            aux -= 1;
+            
+            for (int j = 0; j < 3; j++) {
+                
+                
+                if (i == j){
+                    principal = principal.concat(matriz[i+fila][j+columna]);
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        System.out.println("Resultados de la primera diagonal: " + principal);
+        System.out.println("Resultados de la segunda diagonal: " + secundaria);
+        
+        if (principal.toLowerCase().equals(secundaria.toLowerCase())) {
+            System.out.println("LAS DIAGONALES SON IGUALES!!!");
+            
+        }else{System.out.println("LAS DIAGONALES SON DIFERENTES!!!!");}
+        
+    }
+    
+    public static void sopaLetras(String[][] matrizGrande) {
+        int palabrasEncontradas = 0;
+        boolean bandera ;
         
         
         //esta hasta el 4 porque decidi dar 4 intentos nomas, vos podes personalizarlo.
@@ -73,12 +174,6 @@ public class TUTORIAS_GUIA5 {
         }else{ //caso contrario, gasto los 4 intentos pero si encontro las palabras.
             System.out.println("--- GANASTE, ENCONTRASTE TODAS LAS PALABRAS ---");}
         
-  
-        
-  
-        
-        
-       
     }
     
     public static void llenarMatriz(String[][] matriz){
@@ -164,6 +259,17 @@ public class TUTORIAS_GUIA5 {
         }
          
  
+    }
+    
+    public static void miniMatriz(String[][] matriz , int fila, int columna) {
+        for (int i = fila; i < fila+3; i++) {
+            System.out.print("[");
+            for (int j = columna; j < columna+2; j++) {
+                System.out.print(matriz[i][j]+'|');               
+                   }
+            System.out.println(matriz[i][columna+2]+']');
+            
+        }
     }
     
     public static void mostrarMatriz(String[][] Matriz) {
