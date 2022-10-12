@@ -19,8 +19,7 @@ public class TUTORIAS_GUIA5 {
     public static void main(String[] args) {
 
         //Creamos la matriz
-        Scanner leer;
-        leer = new Scanner(System.in);
+      
         //matrizSopaLetras
         String[][] matrizSopaLetras = new String[10][10];
 
